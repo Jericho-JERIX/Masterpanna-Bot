@@ -7,7 +7,7 @@ import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyRewardCool
 
 export const HourlyReward: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
-		.setName("hr")
+		.setName("free")
 		.setDescription("รับแต้มประจำชั่วโมง"),
 
 	async onCommandExecuted(interaction) {

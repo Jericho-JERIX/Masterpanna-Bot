@@ -18,7 +18,7 @@ export function HourlyRewardEmbed({
 			Math.floor(Math.random() * addedDescriptionList.length)
 		];
 
-	let description = `*"${addDescription}"*\n<@${discordId}> ${icon} คุณได้รับ **${recievedPoints}** แต้ม`;
+	let description = `*"${addDescription}"*\n<@${discordId}> ${icon} คุณได้รับ **${recievedPoints}** แต้ม กลับมาใหม่ในอีก 1 ชัวโมงเพื่อรับรายได้ประจำชั่วโมงอีกครั้ง`;
 
 	return new EmbedBuilder()
 		.setTitle("💸 รายได้ประจำชั่วโมง")
