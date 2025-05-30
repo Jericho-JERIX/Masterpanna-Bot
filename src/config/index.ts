@@ -1,10 +1,11 @@
 import { readFileSync } from "fs";
 
 export interface Config {
-	adminRole: string[];
+	adminUserIdList: string[];
+	adminRoleIdList: string[];
 	hourlyReward: {
 		cooldown: number;
-	};
+	};  
 }
 
 const data = readFileSync("./config.json", "utf-8");

@@ -74,4 +74,25 @@ export default class UsersService {
             recievedPoints
         };
     }
+
+    async addPoint(discordId: string, amount: number) {
+
+        const user = await this.getUserByDiscordId(discordId);
+
+        let newPoint = user.point + amount;
+
+        if (newPoint < 0) {
+            newPoint = 0;
+        }
+
+        return prisma.users.update({
+            where: {
+                discordId
+            },
+            data: {
+                point: newPoint
+            }
+        })
+    }
+    
 }

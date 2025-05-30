@@ -1,5 +1,6 @@
 {
-    "adminRole": [],
+    "adminUserIdList": [],
+    "adminRoleIdList": [],
     "hourlyReward": {
         "cooldown": 0
     }
