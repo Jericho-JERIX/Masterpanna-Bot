@@ -15,6 +15,14 @@ export default class UsersService {
         })
     }
 
+    async getUserList() {
+        return prisma.users.findMany({
+            orderBy: {
+                point: "desc",
+            },
+        });
+    }
+
     async createIfUserNotExists(discordId: string) {
         const user = await prisma.users.findUnique({
             where: {
