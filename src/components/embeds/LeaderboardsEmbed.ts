@@ -1,23 +1,23 @@
 import { EmbedBuilder } from "discord.js";
-import { Users } from "../../../generated/prisma";
+import { DiscordUser } from "../../../generated/prisma";
 
 export function LeaderboardsEmbed({
-    userList,
+    discordUserList,
     mobileView = false,
 }:{
-    userList: Users[]
+    discordUserList: DiscordUser[]
     mobileView?: boolean
 }) {
 
     const rankingEmoji = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
-    const numberList = userList.map((_, index) => `${rankingEmoji[index]}`);
-    const nameList = userList.map((user) => `<@${user.discordId}>`);
-    const pointList = userList.map((user) => `🪙\`${user.point}\``);
+    const numberList = discordUserList.map((_, index) => `${rankingEmoji[index]}`);
+    const nameList = discordUserList.map((discordUser) => `<@${discordUser.discordId}>`);
+    const pointList = discordUserList.map((discordUser) => `🪙\`${discordUser.point}\``);
 
     if (mobileView) {
 
-        const mobileViewList = userList.map((user, index) => `${rankingEmoji[index]} <@${user.discordId}> 🪙\`${user.point}\``)
+        const mobileViewList = discordUserList.map((discordUser, index) => `${rankingEmoji[index]} <@${discordUser.discordId}> 🪙\`${discordUser.point}\``)
 
         return new EmbedBuilder()
             .setTitle("🏆 Top Leaderboards")

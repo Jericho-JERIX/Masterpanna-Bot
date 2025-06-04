@@ -2,36 +2,36 @@ import prisma from "../databases";
 import CooldownError from "../errors/hourly-reward.error";
 import HourlyRewardUtils from "../utils/hourly-reward";
 
-export default class UsersService {
+export default class DiscordUserService {
     
     constructor() {
     }
 
-    async getUserByDiscordId(discordId: string) {
-        return prisma.users.findUniqueOrThrow({
+    async getDiscordUserByDiscordId(discordId: string) {
+        return prisma.discordUser.findUniqueOrThrow({
             where: {
                 discordId
             }
         })
     }
 
-    async getUserList() {
-        return prisma.users.findMany({
+    async getDiscordUserList() {
+        return prisma.discordUser.findMany({
             orderBy: {
                 point: "desc",
             },
         });
     }
 
-    async createIfUserNotExists(discordId: string) {
-        const user = await prisma.users.findUnique({
+    async createIfDiscordUserNotExists(discordId: string) {
+        const discordUser = await prisma.discordUser.findUnique({
             where: {
                 discordId
             }
         })
 
-        if (!user) {
-            await prisma.users.create({
+        if (!discordUser) {
+            await prisma.discordUser.create({
                 data: {
                     discordId
                 }
@@ -41,14 +41,14 @@ export default class UsersService {
     
     async recieveHourlyReward(discordId: string) {
 
-        const user = await prisma.users.findUniqueOrThrow({
+        const discordUser = await prisma.discordUser.findUniqueOrThrow({
             where: {
                 discordId
             }
         })
 
         const now = new Date();
-        const lastClaimedAt: Date | null = user.lastClaimedAt ?? null;
+        const lastClaimedAt: Date | null = discordUser.lastClaimedAt ?? null;
 
         if (lastClaimedAt && HourlyRewardUtils.getResetDate(lastClaimedAt) >= now) {
             throw new CooldownError();
@@ -65,7 +65,7 @@ export default class UsersService {
             recievedPoints = 3;
         }
 
-        const result = await prisma.users.update({
+        const result = await prisma.discordUser.update({
             where: {
                 discordId
             },
@@ -85,15 +85,15 @@ export default class UsersService {
 
     async addPoint(discordId: string, amount: number) {
 
-        const user = await this.getUserByDiscordId(discordId);
+        const discordUser = await this.getDiscordUserByDiscordId(discordId);
 
-        let newPoint = user.point + amount;
+        let newPoint = discordUser.point + amount;
 
         if (newPoint < 0) {
             newPoint = 0;
         }
 
-        return prisma.users.update({
+        return prisma.discordUser.update({
             where: {
                 discordId
             },
