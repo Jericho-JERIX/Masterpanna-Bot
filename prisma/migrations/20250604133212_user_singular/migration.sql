@@ -5,9 +5,9 @@
 
 */
 -- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "Users";
-PRAGMA foreign_keys=on;
+-- PRAGMA foreign_keys=off;
+-- DROP TABLE "Users";
+-- PRAGMA foreign_keys=on;
 
 -- CreateTable
 CREATE TABLE "User" (
