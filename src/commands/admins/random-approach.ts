@@ -1,0 +1,105 @@
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	EmbedBuilder,
+	SlashCommandBuilder,
+} from "discord.js";
+import { SlashCommand } from "../../scripts/types/SlashCommand";
+import RandomApproachService, {
+	AlreadyClaimedError,
+} from "../../services/randomApproach.service";
+import { ClaimButton } from "../../components/buttons/ClaimButton";
+import { RandomApproachEmbed } from "../../components/embeds/RandomApproachEmbed";
+import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproachAlreadyClaimedEmbed";
+import RandomApproachConstant from "../../constants/random-approach.constant";
+import { CommonErrorMessage } from "../../components/messages/CommonErrorMessage";
+import { coin } from "../../utils/ui";
+
+export const RandomApproach: SlashCommand = {
+	slashCommandBuilder: new SlashCommandBuilder()
+		.setName("random-approach")
+		.setDescription("สร้าง Random Approach Event ตอนนี้")
+		.addIntegerOption((option) =>
+			option.setName("reward-points").setDescription("จำนวนแต้มที่จะจ่าย")
+		),
+
+	async onCommandExecuted(interaction) {
+		let rewardPoints = interaction.options.getInteger("reward-points");
+		if (!rewardPoints) {
+			rewardPoints = 2;
+		}
+
+		const rs = new RandomApproachService();
+
+		const randomDesc = RandomApproachConstant.getRandomDescription();
+		const description = `*"${randomDesc}"*\nรีบกดที่ปุ่มด้านล่างเพื่อรับรางวัล ก่อนจะมีคนแย่งไป!`;
+		const target = await rs.create(rewardPoints, description);
+
+		await interaction.reply({
+			embeds: [
+				RandomApproachEmbed({
+					data: target,
+				}),
+			],
+			components: [
+				new ActionRowBuilder<ButtonBuilder>().addComponents(
+					ClaimButton({ id: `random-approach/${target.id}` })
+				),
+			],
+		});
+	},
+
+	async onButtonPressed(interaction) {
+		const id = interaction.customId.split("/")[1];
+		const rs = new RandomApproachService();
+
+		try {
+			const target = await rs.claim(id, interaction.user.id);
+
+			await interaction.update({
+				content: `<@${interaction.user.id}>`,
+				embeds: [
+					RandomApproachEmbed({
+						data: target.randomApproach,
+						discordId: target.discordUser.discordId,
+					}),
+				],
+				components: [
+					new ActionRowBuilder<ButtonBuilder>().addComponents(
+						ClaimButton({
+							id: `random-approach/${target.randomApproach.id}`,
+							disabled: true,
+						})
+					),
+				],
+			});
+
+			await interaction.followUp({
+				embeds: [
+					new EmbedBuilder()
+						.setColor("Green")
+						.setTitle("รับรางวัลสำเร็จ")
+						.setDescription(
+							`คุณได้รับรางวัล ${coin(
+								target.randomApproach.rewardPoints
+							)} แต้ม`
+						)
+						.setFooter({
+							text: `ตอนนี้คุณมี ${target.discordUser.point} แต้ม`,
+						}),
+				],
+				ephemeral: true,
+			});
+		} catch (error) {
+			if (error instanceof AlreadyClaimedError) {
+				await interaction.reply({
+					embeds: [RandomApproachAlreadyClaimedEmbed()],
+					ephemeral: true,
+				});
+			} else {
+				await interaction.reply(CommonErrorMessage());
+				console.error(error);
+			}
+		}
+	},
+};
