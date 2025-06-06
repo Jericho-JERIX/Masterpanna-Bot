@@ -7,6 +7,14 @@ export default class DiscordUserService {
     constructor() {
     }
 
+    async getById(id: string) {
+        return prisma.discordUser.findUniqueOrThrow({
+            where: {
+                id
+            }
+        })
+    }
+
     async getDiscordUserByDiscordId(discordId: string) {
         return prisma.discordUser.findUniqueOrThrow({
             where: {
