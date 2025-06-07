@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { RandomApproach } from "../../../generated/prisma";
+import { RandomApproach } from "../../../../generated/prisma";
 
 export function RandomApproachEmbed({
 	data,

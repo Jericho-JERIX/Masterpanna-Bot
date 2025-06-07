@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "discord.js";
-import { HourlyRewardEmbed } from "../components/embeds/HourlyRewardEmbed";
+import { HourlyRewardEmbed } from "../components/embeds/HourlyReward/HourlyRewardEmbed";
 import { SlashCommand } from "../scripts/types/SlashCommand";
 import DiscordUserService from "../services/discordUser.service";
 import CooldownError from "../errors/hourly-reward.error";
-import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyRewardCooldownEmbed";
+import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyReward/HourlyRewardCooldownEmbed";
 
 export const HourlyReward: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()

@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
-import { convertMillisecondsToHHMMSSString } from "../../utils/date";
-import HourlyRewardUtils from "../../utils/hourly-reward";
+import { convertMillisecondsToHHMMSSString } from "../../../utils/date";
+import HourlyRewardUtils from "../../../utils/hourly-reward";
 
 export function HourlyRewardCooldownEmbed({
 	discordId,

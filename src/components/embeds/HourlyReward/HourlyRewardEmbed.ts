@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import HourlyRewardConstant from "../../constants/hourly-reward.constant";
+import HourlyRewardConstant from "../../../constants/hourly-reward.constant";
 
 export function HourlyRewardEmbed({
 	discordId,
