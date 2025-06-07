@@ -14,6 +14,7 @@ import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/Rando
 import RandomApproachConstant from "../../constants/random-approach.constant";
 import { CommonErrorMessage } from "../../components/messages/CommonErrorMessage";
 import { coin } from "../../utils/ui";
+import { RandomApproachClaimSuccessEmbed } from "../../components/embeds/RandomApproach/RandomApproachClaimSuccessEmbed";
 
 export const RandomApproach: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -74,21 +75,19 @@ export const RandomApproach: SlashCommand = {
 				],
 			});
 
+			const timeDiffMs =
+				target.randomApproach.claimedAt!.getTime() -
+				target.randomApproach.createdAt.getTime();
+
 			await interaction.followUp({
 				embeds: [
-					new EmbedBuilder()
-						.setColor("Green")
-						.setTitle("รับรางวัลสำเร็จ")
-						.setDescription(
-							`คุณได้รับรางวัล ${coin(
-								target.randomApproach.rewardPoints
-							)} แต้ม`
-						)
-						.setFooter({
-							text: `ตอนนี้คุณมี ${target.discordUser.point} แต้ม`,
-						}),
+					RandomApproachClaimSuccessEmbed({
+						discordId: interaction.user.id,
+						rewardPoints: target.randomApproach.rewardPoints,
+						point: target.discordUser.point,
+						timeDiffMs,
+					}),
 				],
-				ephemeral: true,
 			});
 		} catch (error) {
 			if (error instanceof AlreadyClaimedError) {

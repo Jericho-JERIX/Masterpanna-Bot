@@ -1,5 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { RandomApproach } from "../../../../generated/prisma";
+import RandomApproachConstant from "../../../constants/random-approach.constant";
 
 export function RandomApproachEmbed({
 	data,
@@ -11,8 +12,8 @@ export function RandomApproachEmbed({
 
 
 	return new EmbedBuilder()
-		.setColor("Yellow")
-		.setTitle("🌟 บางอย่างกำลังปรากฏขึ้นมา!!!")
+		.setColor(RandomApproachConstant.Color)
+		.setTitle(RandomApproachConstant.Title)
 		.setDescription(data.description!)
         .addFields(
             {
