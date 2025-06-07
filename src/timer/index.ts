@@ -41,8 +41,8 @@ export class Timer {
 		// }, timeDiff)
 
 		// Random between 45*60*1000 and 2*60*60*1000
-		const minTime = 45 * 5 * 1000; // 45 minutes
-		const maxTime = 2 * 60 * 10 * 1000; // 2 hours
+		const minTime = 45 * 60 * 1000; // 45 minutes
+		const maxTime = 2 * 60 * 60 * 1000; // 2 hours
 
 		this.scheduleNextRandomApproach(minTime, maxTime);
 	}
