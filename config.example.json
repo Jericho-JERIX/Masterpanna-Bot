@@ -1,6 +1,8 @@
 {
     "adminUserIdList": [],
     "adminRoleIdList": [],
+    "timezone": "",
+    "channelId": "",
     "hourlyReward": {
         "cooldown": 0
     }

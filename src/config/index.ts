@@ -3,6 +3,8 @@ import { readFileSync } from "fs";
 export interface Config {
 	adminUserIdList: string[];
 	adminRoleIdList: string[];
+    timezone: string;
+    channelId: string;
 	hourlyReward: {
 		cooldown: number;
 	};  
