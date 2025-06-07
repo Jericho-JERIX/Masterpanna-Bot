@@ -9,8 +9,8 @@ import RandomApproachService, {
 	AlreadyClaimedError,
 } from "../../services/randomApproach.service";
 import { ClaimButton } from "../../components/buttons/ClaimButton";
-import { RandomApproachEmbed } from "../../components/embeds/RandomApproachEmbed";
-import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproachAlreadyClaimedEmbed";
+import { RandomApproachEmbed } from "../../components/embeds/RandomApproach/RandomApproachEmbed";
+import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproach/RandomApproachAlreadyClaimedEmbed";
 import RandomApproachConstant from "../../constants/random-approach.constant";
 import { CommonErrorMessage } from "../../components/messages/CommonErrorMessage";
 import { coin } from "../../utils/ui";
