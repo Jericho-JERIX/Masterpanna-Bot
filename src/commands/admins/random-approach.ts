@@ -1,20 +1,17 @@
 import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	EmbedBuilder,
-	SlashCommandBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    SlashCommandBuilder
 } from "discord.js";
+import { ClaimButton } from "../../components/buttons/ClaimButton";
+import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproach/RandomApproachAlreadyClaimedEmbed";
+import { RandomApproachClaimSuccessEmbed } from "../../components/embeds/RandomApproach/RandomApproachClaimSuccessEmbed";
+import { RandomApproachEmbed } from "../../components/embeds/RandomApproach/RandomApproachEmbed";
+import { CommonErrorMessage } from "../../components/messages/CommonErrorMessage";
 import { SlashCommand } from "../../scripts/types/SlashCommand";
 import RandomApproachService, {
-	AlreadyClaimedError,
+    AlreadyClaimedError,
 } from "../../services/randomApproach.service";
-import { ClaimButton } from "../../components/buttons/ClaimButton";
-import { RandomApproachEmbed } from "../../components/embeds/RandomApproach/RandomApproachEmbed";
-import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproach/RandomApproachAlreadyClaimedEmbed";
-import RandomApproachConstant from "../../constants/random-approach.constant";
-import { CommonErrorMessage } from "../../components/messages/CommonErrorMessage";
-import { coin } from "../../utils/ui";
-import { RandomApproachClaimSuccessEmbed } from "../../components/embeds/RandomApproach/RandomApproachClaimSuccessEmbed";
 
 export const RandomApproach: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -31,10 +28,8 @@ export const RandomApproach: SlashCommand = {
 		}
 
 		const rs = new RandomApproachService();
-
-		const randomDesc = RandomApproachConstant.getRandomDescription();
-		const description = `*"${randomDesc}"*\nรีบกดที่ปุ่มด้านล่างเพื่อรับรางวัล ก่อนจะมีคนแย่งไป!`;
-		const target = await rs.create(rewardPoints, description);
+		
+		const target = await rs.create(rewardPoints);
 
 		await interaction.reply({
 			embeds: [

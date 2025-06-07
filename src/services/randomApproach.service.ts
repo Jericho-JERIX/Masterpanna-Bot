@@ -1,3 +1,4 @@
+import RandomApproachConstant from "../constants/random-approach.constant";
 import prisma from "../databases";
 import DiscordUserService from "./discordUser.service";
 
@@ -14,7 +15,11 @@ export default class RandomApproachService {
 		this.ds = new DiscordUserService();
 	}
 
-	async create(rewardPoints: number, description?: string) {
+	async create(rewardPoints: number) {
+
+        const randomDesc = RandomApproachConstant.getRandomDescription();
+		const description = `> *"${randomDesc}"*\nรีบกดที่ปุ่มด้านล่างเพื่อรับรางวัล ก่อนจะมีคนแย่งไป!`;
+
 		return prisma.randomApproach.create({
 			data: {
 				rewardPoints,
