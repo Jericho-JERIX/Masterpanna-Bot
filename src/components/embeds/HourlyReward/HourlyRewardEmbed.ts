@@ -18,12 +18,12 @@ export function HourlyRewardEmbed({
 			Math.floor(Math.random() * addedDescriptionList.length)
 		];
 
-	let description = `*"${addDescription}"*\n<@${discordId}> ${icon} คุณได้รับ **${recievedPoints}** แต้ม กลับมาใหม่ในอีก 1 ชัวโมงเพื่อรับรายได้ประจำชั่วโมงอีกครั้ง`;
+	let description = `*"${addDescription}"*\n<@${discordId}> ${icon} ได้รับ **${recievedPoints}** แต้ม กลับมาใหม่ในอีก 1 ชัวโมงเพื่อรับรายได้ประจำชั่วโมงอีกครั้ง`;
 
 	return new EmbedBuilder()
-		.setTitle("💸 รายได้ประจำชั่วโมง")
+		.setTitle(HourlyRewardConstant.Title)
 		.setDescription(description)
-		.setColor("#11ff00")
+		.setColor(HourlyRewardConstant.Color)
 		.setThumbnail(
 			"https://lh3.googleusercontent.com/ySO8jPtih1VUK9Etoa2Jer53EMP0Y_6tFYD2aZtH8m3p5_T3uyXPLnqx54WOfCFt5uDoxVUJUazDPBy33HofpJ5hm_oMSSXBdSTqjPBk"
 		)

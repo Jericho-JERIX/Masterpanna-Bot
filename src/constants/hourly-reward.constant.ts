@@ -1,4 +1,8 @@
+import { ColorResolvable } from "discord.js";
+
 export default class HourlyRewardConstant {
+	static readonly Title: string = "💸 รายได้ประจำชั่วโมง";
+	static readonly Color: ColorResolvable = "#11ff00";
 	static Description: string[][] = [
 		// 🪙 ของระดับ 1 แต้ม
 		[
