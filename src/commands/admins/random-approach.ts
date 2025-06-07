@@ -1,9 +1,7 @@
 import {
-    ActionRowBuilder,
-    ButtonBuilder,
     SlashCommandBuilder
 } from "discord.js";
-import { ClaimButton } from "../../components/buttons/ClaimButton";
+import { RandomApproachClaimButton } from "../../components/buttons/RandomApproachClaimButton";
 import { RandomApproachAlreadyClaimedEmbed } from "../../components/embeds/RandomApproach/RandomApproachAlreadyClaimedEmbed";
 import { RandomApproachClaimSuccessEmbed } from "../../components/embeds/RandomApproach/RandomApproachClaimSuccessEmbed";
 import { RandomApproachEmbed } from "../../components/embeds/RandomApproach/RandomApproachEmbed";
@@ -28,7 +26,7 @@ export const RandomApproach: SlashCommand = {
 		}
 
 		const rs = new RandomApproachService();
-		
+
 		const target = await rs.create(rewardPoints);
 
 		await interaction.reply({
@@ -38,9 +36,9 @@ export const RandomApproach: SlashCommand = {
 				}),
 			],
 			components: [
-				new ActionRowBuilder<ButtonBuilder>().addComponents(
-					ClaimButton({ id: `random-approach/${target.id}` })
-				),
+				RandomApproachClaimButton({
+					id: `random-approach/${target.id}`,
+				}),
 			],
 		});
 	},
@@ -61,12 +59,10 @@ export const RandomApproach: SlashCommand = {
 					}),
 				],
 				components: [
-					new ActionRowBuilder<ButtonBuilder>().addComponents(
-						ClaimButton({
-							id: `random-approach/${target.randomApproach.id}`,
-							disabled: true,
-						})
-					),
+					RandomApproachClaimButton({
+						id: `random-approach/${target.randomApproach.id}`,
+						disabled: true,
+					}),
 				],
 			});
 
