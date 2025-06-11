@@ -1,6 +1,7 @@
 {
     "adminUserIdList": [],
     "adminRoleIdList": [],
+    "timeFormat": "",
     "timezone": "",
     "channelId": "",
     "hourlyReward": {
