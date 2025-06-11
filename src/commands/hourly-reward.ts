@@ -4,6 +4,7 @@ import { SlashCommand } from "../scripts/types/SlashCommand";
 import DiscordUserService from "../services/discordUser.service";
 import CooldownError from "../errors/hourly-reward.error";
 import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyReward/HourlyRewardCooldownEmbed";
+import HourlyRewardService from "../services/hourlyReward.service";
 
 export const HourlyReward: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -12,9 +13,10 @@ export const HourlyReward: SlashCommand = {
 
 	async onCommandExecuted(interaction) {
 		const us = new DiscordUserService();
+        const hs = new HourlyRewardService();
 
 		try {
-			const result = await us.recieveHourlyReward(interaction.user.id);
+			const result = await hs.recieveHourlyReward(interaction.user.id);
 
 			await interaction.reply({
 				embeds: [
