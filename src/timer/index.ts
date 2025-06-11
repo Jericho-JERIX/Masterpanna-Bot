@@ -54,7 +54,10 @@ export class Timer {
 
 		console.log(
 			`🎯 Next random approach event scheduled at: ${nextEventTime.toLocaleString(
-				this.config.timezone
+				this.config.timeFormat,
+				{
+					timeZone: this.config.timezone,
+				}
 			)} (in ${Math.floor(randomTime / 60000)} minutes)`
 		);
 
