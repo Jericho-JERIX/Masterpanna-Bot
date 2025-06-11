@@ -16,8 +16,7 @@ export default class RandomApproachService {
 	}
 
 	async create(rewardPoints: number) {
-
-        const randomDesc = RandomApproachConstant.getRandomDescription();
+		const randomDesc = RandomApproachConstant.getRandomDescription();
 		const description = `> *"${randomDesc}"*\nรีบกดที่ปุ่มด้านล่างเพื่อรับรางวัล ก่อนจะมีคนแย่งไป!`;
 
 		return prisma.randomApproach.create({
@@ -40,14 +39,13 @@ export default class RandomApproachService {
 		}
 
 		try {
+			const targetUser = await prisma.discordUser.findUniqueOrThrow({
+				where: {
+					discordId,
+				},
+			});
 
-            const targetUser = await prisma.discordUser.findUniqueOrThrow({
-                where: {
-                    discordId,
-                },
-            });
-			
-            const raResult = await prisma.randomApproach.update({
+			const raResult = await prisma.randomApproach.update({
 				where: {
 					id: id,
 				},
@@ -58,7 +56,10 @@ export default class RandomApproachService {
 			});
 			const duResult = await this.ds.addPoint(
 				discordId,
-				target.rewardPoints
+				target.rewardPoints,
+				{
+					description: "Random Approach",
+				}
 			);
 
 			return {
@@ -66,7 +67,7 @@ export default class RandomApproachService {
 				discordUser: duResult,
 			};
 		} catch (error) {
-            console.error(error)
+			console.error(error);
 			throw new Error("Failed to claim random approach");
 		}
 	}

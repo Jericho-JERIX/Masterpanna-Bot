@@ -35,11 +35,13 @@ export const ManagePoint: SlashCommand = {
             return;
         }
 
-        const discordUser = interaction.options.getUser("discordUser", true);
+        const discordUser = interaction.options.getUser("user", true);
         const amount = interaction.options.getNumber("amount", true);
         const reason = interaction.options.getString("reason");
 
-        const result = await us.addPoint(discordUser.id, amount);
+        const result = await us.addPoint(discordUser.id, amount, {
+            description: `Manage Point by ${interaction.member?.user.username} (${interaction.member?.user.id}) with reason: ${reason}`
+        });
 
         const receiver = interaction.guild?.members.cache.get(discordUser.id);
 
