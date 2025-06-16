@@ -1,5 +1,5 @@
 import { DiscordUser } from "../../../generated/prisma";
-import { EmbedBuilder, GuildMember } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, GuildMember } from "discord.js";
 
 export function DiscordUserProfileEmbed({
 	discordUser,
@@ -8,6 +8,7 @@ export function DiscordUserProfileEmbed({
 	discordUser: DiscordUser;
 	discordMember: GuildMember;
 }) {
+	
 	return new EmbedBuilder()
 		.setTitle("🍆 ข้อมูลผู้ใช้งาน")
 		.setDescription(`<@${discordUser.discordId}>`)

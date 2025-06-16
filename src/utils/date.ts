@@ -1,3 +1,5 @@
+import { config } from "../config";
+
 export function convertHHMMSSStringToSeconds(time: string): number {
 
     const unitCount = time.split(":").length;
@@ -30,4 +32,17 @@ export function convertSecondsToHHMMSSString(seconds: number): string {
 export function convertMillisecondsToHHMMSSString(milliseconds: number): string {
     const seconds = Math.floor(milliseconds / 1000);
     return convertSecondsToHHMMSSString(seconds);
+}
+
+export function convertDateToDDMMYYYYHHMMSSString(date: Date): string {
+    return date.toLocaleString("en-US", {
+        timeZone: config.timezone,
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    }).replace(", ", " - ")
 }
