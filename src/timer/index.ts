@@ -3,20 +3,40 @@ import { Config } from "../config";
 import RandomApproachService from "../services/randomApproach.service";
 import { RandomApproachClaimButton } from "../components/buttons/RandomApproachClaimButton";
 import { RandomApproachEmbed } from "../components/embeds/RandomApproach/RandomApproachEmbed";
+import EconomyService from "../services/economy.service";
 
 export class Timer {
 	config: Config;
 	client: Client;
 	randomApproachService: RandomApproachService;
+	economyService: EconomyService;
 
 	constructor(client: Client, config: Config) {
 		this.config = config;
 		this.client = client;
 		this.randomApproachService = new RandomApproachService();
+		this.economyService = new EconomyService();
 	}
 
 	initTimer() {
-		// const now = new Date()
+		const now = new Date();
+		const nextHour = new Date().setHours(now.getHours() + 1, 0, 0, 0);
+		const nextHourTime = new Date(nextHour);
+
+		const timeDiff = nextHourTime.getTime() - now.getTime();
+
+        console.log(
+			`🎯 Next Hourly Record Economy event scheduled at: ${nextHourTime.toLocaleString(
+				this.config.timeFormat,
+				{
+					timeZone: this.config.timezone,
+				}
+			)} (in ${Math.floor(timeDiff / 60000)} minutes)`
+		);
+		setTimeout(() => {
+			this.hourlyRecordEconomy();
+			setInterval(this.hourlyRecordEconomy, 60 * 60 * 1000);
+		}, timeDiff);
 
 		// const [tm, ts] = this.config.hhmm.split(":").map(Number)
 
@@ -53,7 +73,7 @@ export class Timer {
 		const nextEventTime = new Date(Date.now() + randomTime);
 
 		console.log(
-			`🎯 Next random approach event scheduled at: ${nextEventTime.toLocaleString(
+			`🎯 Next Random Approach event scheduled at: ${nextEventTime.toLocaleString(
 				this.config.timeFormat,
 				{
 					timeZone: this.config.timezone,
@@ -97,5 +117,17 @@ export class Timer {
 		} else {
 			console.error("Channel not found");
 		}
+	}
+
+	async hourlyRecordEconomy() {
+		await this.economyService.createEconomy();
+		console.log(
+			`[Hourly Record Economy] Recorded at ${new Date().toLocaleString(
+				this.config.timeFormat,
+				{
+					timeZone: this.config.timezone,
+				}
+			)}`
+		);
 	}
 }
