@@ -25,7 +25,7 @@ export class Timer {
 
 		const timeDiff = nextHourTime.getTime() - now.getTime();
 
-        console.log(
+		console.log(
 			`🎯 Next Hourly Record Economy event scheduled at: ${nextHourTime.toLocaleString(
 				this.config.timeFormat,
 				{
@@ -33,9 +33,11 @@ export class Timer {
 				}
 			)} (in ${Math.floor(timeDiff / 60000)} minutes)`
 		);
-		setTimeout(() => {
-			this.hourlyRecordEconomy();
-			setInterval(this.hourlyRecordEconomy, 60 * 60 * 1000);
+		setTimeout(async () => {
+			await this.hourlyRecordEconomy();
+			setInterval(async () => {
+				await this.hourlyRecordEconomy();
+			}, 60 * 60 * 1000);
 		}, timeDiff);
 
 		// const [tm, ts] = this.config.hhmm.split(":").map(Number)
@@ -120,14 +122,25 @@ export class Timer {
 	}
 
 	async hourlyRecordEconomy() {
-		await this.economyService.createEconomy();
-		console.log(
-			`[Hourly Record Economy] Recorded at ${new Date().toLocaleString(
-				this.config.timeFormat,
-				{
-					timeZone: this.config.timezone,
-				}
-			)}`
-		);
+		try {
+			await this.economyService.createEconomy();
+			console.log(
+				`[Hourly Record Economy] Recorded at ${new Date().toLocaleString(
+					this.config.timeFormat,
+					{
+						timeZone: this.config.timezone,
+					}
+				)}`
+			);
+		} catch (err) {
+			console.error(
+				`[Hourly Record Economy] Failed to record at ${new Date().toLocaleString(
+					this.config.timeFormat,
+					{
+						timeZone: this.config.timezone,
+					}
+				)} with error:\n${err}`
+			);
+		}
 	}
 }
