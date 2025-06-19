@@ -70,6 +70,8 @@ export const RandomApproach: SlashCommand = {
 				target.randomApproach.claimedAt!.getTime() -
 				target.randomApproach.createdAt.getTime();
 
+            const fastestRa = await rs.getFastestClaimed();
+
 			await interaction.followUp({
 				embeds: [
 					RandomApproachClaimSuccessEmbed({
@@ -77,6 +79,8 @@ export const RandomApproach: SlashCommand = {
 						rewardPoints: target.randomApproach.rewardPoints,
 						point: target.discordUser.point,
 						timeDiffMs,
+                        fastestRa: fastestRa?.randomApproach,
+                        fastestDiscordUser: fastestRa?.discordUser,
 					}),
 				],
 			});

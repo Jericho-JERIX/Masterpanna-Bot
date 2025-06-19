@@ -71,4 +71,45 @@ export default class RandomApproachService {
 			throw new Error("Failed to claim random approach");
 		}
 	}
+
+	async getFastestClaimed() {
+
+		const raList = await prisma.randomApproach.findMany({
+			where: {
+				claimedByDiscordId: {
+					not: null,
+				},
+			},
+		});
+
+        if (raList.length === 0) {
+            return null;
+        }
+
+        let result = null;
+        let leastTime = Infinity;
+        for (const ra of raList) {
+            if (!ra.claimedAt) continue;
+            let claimedTime = ra.claimedAt.getTime() - ra.createdAt.getTime();
+            if (claimedTime < leastTime) {
+                leastTime = claimedTime;
+                result = ra;
+            }
+        }
+
+        if (!result) {
+            return null;
+        }
+
+        const user = await prisma.discordUser.findUniqueOrThrow({
+            where: {
+                id: result.claimedByDiscordId!,
+            },
+        });
+
+        return {
+            randomApproach: result,
+            discordUser: user,
+        };
+	}
 }
