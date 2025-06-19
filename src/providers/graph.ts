@@ -5,7 +5,8 @@ export default class GraphProvider {
 
 	async createPointNetworthGraph(
 		x: any[],
-		y: any[],
+		y1: any[],
+		y2: any[],
 		{
 			delimeter = ",",
 		}: {
@@ -13,7 +14,7 @@ export default class GraphProvider {
 		} = {}
 	) {
 		exec(
-			`python src/libs/generate-graph.py "${x.join(delimeter)}" "${y.join(delimeter)}"`,
+			`python src/libs/generate-graph.py "${x.join(delimeter)}" "${y1.join(delimeter)}" "${y2.join(delimeter)}"`,
 			(error, stdout, stderr) => {
 				if (error) {
 					console.error(`error: ${error.message}`);
@@ -23,7 +24,7 @@ export default class GraphProvider {
 					console.error(`stderr: ${stderr}`);
 					return;
 				}
-				console.log(`Done`);
+				console.log(`Done`, stdout);
 			}
 		);
 	}
