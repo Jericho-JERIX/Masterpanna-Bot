@@ -3,6 +3,7 @@ import { SlashCommand } from "../../scripts/types/SlashCommand";
 import AdminService from "../../services/admin.service";
 import DiscordUserService from "../../services/discordUser.service";
 import { StatisticsEmbed } from "../../components/embeds/StatisticsEmbed";
+import EconomyService from "../../services/economy.service";
 
 export const Statistics: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -12,6 +13,7 @@ export const Statistics: SlashCommand = {
 	async onCommandExecuted(interaction) {
 		const us = new DiscordUserService();
 		const as = new AdminService();
+        const es = new EconomyService();
 
 		if (!as.isGuildMemberIsAdmin(interaction.member as GuildMember)) {
 			await interaction.reply({
@@ -51,6 +53,8 @@ export const Statistics: SlashCommand = {
 			) / totalUser
 		);
 
+        const latestEconomy = await es.getLatestEconomy();
+
 		await interaction.reply({
 			embeds: [
 				StatisticsEmbed({
@@ -58,6 +62,8 @@ export const Statistics: SlashCommand = {
 					maxUser,
 					minUser,
 					sd,
+                    totalPoints: latestEconomy.totalPoint || 0,
+                    totalPlayers: latestEconomy.totalUser || 0,
 				}),
 			],
 			// ephemeral: true,

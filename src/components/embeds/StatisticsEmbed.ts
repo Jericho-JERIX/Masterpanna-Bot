@@ -6,11 +6,15 @@ export function StatisticsEmbed({
     maxUser,
     minUser,
     sd,
+    totalPoints,
+    totalPlayers,
 }: {
 	mean: number;
 	maxUser: DiscordUser;
 	minUser: DiscordUser;
 	sd: number;
+	totalPoints: number;
+	totalPlayers: number;
 }) {
 	return new EmbedBuilder().setTitle("สถิติการใช้งาน").addFields(
 		{
@@ -31,7 +35,17 @@ export function StatisticsEmbed({
 		{
 			name: "Min",
 			value: `<@${minUser.discordId}> 🪙\`${minUser.point}\``,
+			inline: false,
+		},
+		{
+			name: "Total Points",
+			value: `\`${totalPoints}\``,
 			inline: true,
-		}
+		},
+		{
+			name: "Total Players",
+			value: `\`${totalPlayers}\``,
+			inline: false,
+		},
 	);
 }
