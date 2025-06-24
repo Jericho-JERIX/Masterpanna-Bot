@@ -1,7 +1,11 @@
 {
     "adminUserIdList": [],
     "adminRoleIdList": [],
+    "timeFormat": "",
+    "timezone": "",
+    "channelId": "",
     "hourlyReward": {
         "cooldown": 0
-    }
+    },
+    "playerRoleId": ""
 }

@@ -1,6 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { convertMillisecondsToHHMMSSString } from "../../utils/date";
-import HourlyRewardUtils from "../../utils/hourly-reward";
+import { convertMillisecondsToHHMMSSString } from "../../../utils/date";
+import HourlyRewardUtils from "../../../utils/hourly-reward";
+import HourlyRewardConstant from "../../../constants/hourly-reward.constant";
 
 export function HourlyRewardCooldownEmbed({
 	discordId,
@@ -16,15 +17,16 @@ export function HourlyRewardCooldownEmbed({
 		new Date().getTime();
 
 	return new EmbedBuilder()
-		.setTitle("💸 รายได้ประจำชั่วโมง")
+		.setAuthor({ name: HourlyRewardConstant.Title })
+		.setTitle("🚫 ยังไม่ถึงเวลาที่สามารถรับแต้มได้")
 		.setDescription(
-			`🚫 <@${discordId}> ตอนนี้ยังไม่สามารถรับแต้มได้ รอก่อนนะจ๊ะ`
+			`<@${discordId}> ตอนนี้ยังไม่สามารถรับแต้มได้ รอก่อนนะจ๊ะ`
 		)
 		.addFields({
 			name: "🕒 สามารถรับได้ในอีก",
 			value: `\`${convertMillisecondsToHHMMSSString(timeLeft)}\``,
 		})
-		.setColor("#ff0000")
+		.setColor(HourlyRewardConstant.Color)
 		.setThumbnail(
 			"https://lh3.googleusercontent.com/ySO8jPtih1VUK9Etoa2Jer53EMP0Y_6tFYD2aZtH8m3p5_T3uyXPLnqx54WOfCFt5uDoxVUJUazDPBy33HofpJ5hm_oMSSXBdSTqjPBk"
 		)

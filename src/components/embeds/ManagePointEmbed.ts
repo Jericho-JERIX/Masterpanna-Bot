@@ -1,16 +1,16 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
-import { Users } from "../../../generated/prisma";
+import { DiscordUser } from "../../../generated/prisma";
 
 export function ManagePointEmbed({
 	donor,
 	receiver,
-    receiverUser,
+    receiverDiscordUser,
 	amount,
 	reason,
 }: {
 	donor: GuildMember;
 	receiver: GuildMember;
-    receiverUser: Users;
+    receiverDiscordUser: DiscordUser;
 	amount: number;
 	reason: string;
 }) {
@@ -20,7 +20,7 @@ export function ManagePointEmbed({
 	return new EmbedBuilder()
 		.setTitle(title)
 		.setDescription(
-			`<@${receiver.user.id}> ${amount > 0 ? "ได้รับ" : "ถูกลด"} ${amount} แต้มจาก <@${donor.user.id}>`
+			`<@${receiverDiscordUser.discordId}> ${amount > 0 ? "ได้รับ" : "ถูกลด"} ${amount} แต้มจาก <@${donor.user.id}>`
 		)
 		.addFields(
 			{
@@ -34,5 +34,5 @@ export function ManagePointEmbed({
 		)
 		.setColor(color)
 		.setThumbnail(receiver.user.displayAvatarURL())
-        .setFooter({ text: `ตอนนี้คุณมี ${receiverUser.point} แต้ม` });
+        .setFooter({ text: `ตอนนี้คุณมี ${receiverDiscordUser.point} แต้ม` });
 }

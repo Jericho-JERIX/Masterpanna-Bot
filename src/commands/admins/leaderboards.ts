@@ -5,7 +5,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import { SlashCommand } from "../../scripts/types/SlashCommand";
-import UsersService from "../../services/users.service";
+import DiscordUserService from "../../services/discordUser.service";
 import { LeaderboardsEmbed } from "../../components/embeds/LeaderboardsEmbed";
 import { MobileViewButton } from "../../components/buttons/MobileViewButton";
 import AdminService from "../../services/admin.service";
@@ -16,20 +16,20 @@ export const Leaderboards: SlashCommand = {
 		.setDescription("แสดงตารางจัดอันดับ"),
 
 	async onCommandExecuted(interaction) {
-		const us = new UsersService();
+		const us = new DiscordUserService();
 		const as = new AdminService();
 
-        if (!as.isGuildMemberIsAdmin(interaction.member as GuildMember)) {
-            await interaction.reply({
-                content: "คุณไม่มีสิทธิในการใช้งานคำสั่งนี้",
-                ephemeral: true,
-            })
-            return;
-        }
+		if (!as.isGuildMemberIsAdmin(interaction.member as GuildMember)) {
+			await interaction.reply({
+				content: "คุณไม่มีสิทธิในการใช้งานคำสั่งนี้",
+				ephemeral: true,
+			});
+			return;
+		}
 
-		const userList = await us.getUserList();
+		const discordUserList = await us.getDiscordUserList();
 		const leaderboardEmbed = LeaderboardsEmbed({
-			userList: userList.slice(0, 10),
+			discordUserList: discordUserList.slice(0, 10),
 			mobileView: false,
 		});
 		const mobileViewButton = MobileViewButton();
@@ -44,10 +44,10 @@ export const Leaderboards: SlashCommand = {
 	},
 
 	async onButtonPressed(interaction) {
-		const us = new UsersService();
-		const userList = await us.getUserList();
+		const us = new DiscordUserService();
+		const discordUserList = await us.getDiscordUserList();
 		const leaderboardEmbed = LeaderboardsEmbed({
-			userList: userList.slice(0, 10),
+			discordUserList: discordUserList.slice(0, 10),
 			mobileView: true,
 		});
 		await interaction.reply({
