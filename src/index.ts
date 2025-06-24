@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import { Client, Events, GatewayIntentBits, GuildMember } from "discord.js";
 import * as dotenv from "dotenv";
 import { BaseInteraction } from "discord.js";
 import { SlashCommandObject } from "./scripts/types/SlashCommandObject";
@@ -7,6 +7,7 @@ import { getSlashCommandObject } from "./utils/slash-command";
 import DiscordUsersService from "./services/discordUser.service";
 import { Timer } from "./timer";
 import { config } from "./config";
+import { givePlayerRoleToUser } from "./actions/givePlayerRoleToUser";
 
 dotenv.config();
 let commands: SlashCommandObject;
@@ -25,6 +26,9 @@ client.once(Events.ClientReady, async (client) => {
 
 client.on("interactionCreate", async (interaction: BaseInteraction) => {
 	await us.createIfDiscordUserNotExists(interaction.user.id);
+	if (interaction.member instanceof GuildMember) {
+		givePlayerRoleToUser(interaction.member);
+	}
 	if (interaction.isChatInputCommand()) {
 		await commands[interaction.commandName].onCommandExecuted(interaction);
 	} else if (interaction.isButton()) {

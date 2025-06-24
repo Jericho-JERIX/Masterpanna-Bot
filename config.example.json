@@ -6,5 +6,6 @@
     "channelId": "",
     "hourlyReward": {
         "cooldown": 0
-    }
+    },
+    "playerRoleId": ""
 }
