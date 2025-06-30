@@ -7,5 +7,6 @@
     "hourlyReward": {
         "cooldown": 0
     },
-    "playerRoleId": ""
+    "playerRoleId": "",
+    "endTimestamp": null
 }
