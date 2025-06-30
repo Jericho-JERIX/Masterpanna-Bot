@@ -46,4 +46,11 @@ export default class EconomyService {
 			},
 		});
 	}
+
+    async getStatistics() {
+        const economy = await this.getLatestEconomy();
+        // Most rewarded by Hourly Reward
+        // Most rewarded by Random Approached
+        // Most active player (Most transaction count)
+    }
 }
