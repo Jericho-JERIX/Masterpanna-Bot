@@ -11,13 +11,15 @@ export const Point: SlashCommand = {
 	async onCommandExecuted(interaction) {
 		const us = new DiscordUserService();
 
-		const discordUser = await us.getDiscordUserByDiscordId(interaction.user.id);
+		const discordUser = await us.getProfileByDiscordId(interaction.user.id);
 
 		interaction.reply({
 			embeds: [
 				DiscordUserProfileEmbed({
 					discordUser,
 					discordMember: interaction.member as GuildMember,
+                    totalTransactions: discordUser.totalTransactions,
+                    pph: discordUser.pph.toFixed(3),
 				}),
 			],
 		});

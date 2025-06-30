@@ -10,6 +10,7 @@ export interface Config {
 		cooldown: number;
 	};
 	playerRoleId: string;
+	endTimestamp: number | null;
 }
 
 const data = readFileSync("./config.json", "utf-8");

@@ -1,13 +1,12 @@
-import { Client, Events, GatewayIntentBits, GuildMember } from "discord.js";
+import { BaseInteraction, Client, Events, GatewayIntentBits, GuildMember } from "discord.js";
 import * as dotenv from "dotenv";
-import { BaseInteraction } from "discord.js";
-import { SlashCommandObject } from "./scripts/types/SlashCommandObject";
-import { slashCommandList } from "./commands";
-import { getSlashCommandObject } from "./utils/slash-command";
-import DiscordUsersService from "./services/discordUser.service";
-import { Timer } from "./timer";
-import { config } from "./config";
+import { checkPlayTimeIsExpired } from "./actions/checkPlayTimeIsExpired";
 import { givePlayerRoleToUser } from "./actions/givePlayerRoleToUser";
+import { slashCommandList } from "./commands";
+import { onBotInit } from "./scripts/on-bot-init";
+import { SlashCommandObject } from "./scripts/types/SlashCommandObject";
+import DiscordUsersService from "./services/discordUser.service";
+import { getSlashCommandObject } from "./utils/slash-command";
 
 dotenv.config();
 let commands: SlashCommandObject;
@@ -18,13 +17,15 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, async (client) => {
-	console.log(`✅ Ready! Logged in as ${client.user?.tag}`);
 	commands = getSlashCommandObject(slashCommandList);
-	const timer = new Timer(client, config);
-	timer.initTimer();
+    onBotInit(client);
 });
 
 client.on("interactionCreate", async (interaction: BaseInteraction) => {
+	if (checkPlayTimeIsExpired(interaction)) {
+		return;
+	}
+
 	await us.createIfDiscordUserNotExists(interaction.user.id);
 	if (interaction.member instanceof GuildMember) {
 		givePlayerRoleToUser(interaction.member);
