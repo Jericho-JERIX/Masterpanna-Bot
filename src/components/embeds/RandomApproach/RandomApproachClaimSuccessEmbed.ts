@@ -9,19 +9,17 @@ export function RandomApproachClaimSuccessEmbed({
     point,
     timeDiffMs,
     fastestRa,
-    fastestDiscordUser,
 }: {
     discordId: string;
     rewardPoints: number;
     point: number;
     timeDiffMs: number;
     fastestRa?: RandomApproach | null;
-    fastestDiscordUser?: DiscordUser | null;
 }) {
     let fastestMessage = "";
-    if (fastestRa && fastestDiscordUser) {
+    if (fastestRa) {
         const timeDiffMs = fastestRa.claimedAt!.getTime() - fastestRa.createdAt.getTime();
-        fastestMessage = `\n\n*🔥 เร็วที่สุดตอนนี้คือ \`${timeDiffMs/1000}\` วินาที โดย <@${fastestDiscordUser.id}>*`;
+        fastestMessage = `\n\n*🔥 เร็วที่สุดตอนนี้คือ \`${timeDiffMs/1000}\` วินาที โดย <@${fastestRa.claimedByDiscordId}>*`;
     }
 	return new EmbedBuilder()
     .setAuthor({ name: RandomApproachConstant.Title })

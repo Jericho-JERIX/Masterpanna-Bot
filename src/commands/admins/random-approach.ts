@@ -80,7 +80,6 @@ export const RandomApproach: SlashCommand = {
 						point: target.discordUser.point,
 						timeDiffMs,
                         fastestRa: fastestRa?.randomApproach,
-                        fastestDiscordUser: fastestRa?.discordUser,
 					}),
 				],
 			});
