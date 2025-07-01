@@ -55,7 +55,7 @@ export const RandomApproach: SlashCommand = {
 				embeds: [
 					RandomApproachEmbed({
 						data: target.randomApproach,
-						discordId: target.discordUser.discordId,
+						discordId: target.discordUser.id,
 					}),
 				],
 				components: [

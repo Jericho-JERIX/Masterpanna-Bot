@@ -25,12 +25,12 @@ export function StatisticsEmbed({
         },
 		{
 			name: "Max",
-			value: `<@${maxUser.discordId}> 🪙\`${maxUser.point}\``,
+			value: `<@${maxUser.id}> 🪙\`${maxUser.point}\``,
 			inline: true,
 		},
 		{
 			name: "Min",
-			value: `<@${minUser.discordId}> 🪙\`${minUser.point}\``,
+			value: `<@${minUser.id}> 🪙\`${minUser.point}\``,
 			inline: true,
 		}
 	);

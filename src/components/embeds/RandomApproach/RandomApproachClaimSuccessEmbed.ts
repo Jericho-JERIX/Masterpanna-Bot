@@ -21,7 +21,7 @@ export function RandomApproachClaimSuccessEmbed({
     let fastestMessage = "";
     if (fastestRa && fastestDiscordUser) {
         const timeDiffMs = fastestRa.claimedAt!.getTime() - fastestRa.createdAt.getTime();
-        fastestMessage = `\n\n*🔥 เร็วที่สุดตอนนี้คือ \`${timeDiffMs/1000}\` วินาที โดย <@${fastestDiscordUser.discordId}>*`;
+        fastestMessage = `\n\n*🔥 เร็วที่สุดตอนนี้คือ \`${timeDiffMs/1000}\` วินาที โดย <@${fastestDiscordUser.id}>*`;
     }
 	return new EmbedBuilder()
     .setAuthor({ name: RandomApproachConstant.Title })

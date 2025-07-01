@@ -26,7 +26,7 @@ export function LeaderboardsEmbed({
 		(_, index) => `${rankingEmoji[index]}`
 	);
 	const nameList = discordUserList.map(
-		(discordUser) => `<@${discordUser.discordId}>`
+		(discordUser) => `<@${discordUser.id}>`
 	);
 	const pointList = discordUserList.map(
 		(discordUser) => `🪙\`${discordUser.point}\``
@@ -35,7 +35,7 @@ export function LeaderboardsEmbed({
 	if (mobileView) {
 		const mobileViewList = discordUserList.map(
 			(discordUser, index) =>
-				`${rankingEmoji[index]} <@${discordUser.discordId}> 🪙\`${discordUser.point}\``
+				`${rankingEmoji[index]} <@${discordUser.id}> 🪙\`${discordUser.point}\``
 		);
 
 		return new EmbedBuilder()
