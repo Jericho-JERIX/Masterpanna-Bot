@@ -45,23 +45,10 @@ export default class DiscordUserService {
         }
 	}
 
-    async getProfileByDiscordId(discordId: string): Promise<GetProfile> {
-        const user = await this.getDiscordUserByDiscordId(discordId)
-        return this.getProfile(user.id)
-    }
-
 	async getById(id: string) {
 		return prisma.discordUser.findUniqueOrThrow({
 			where: {
 				id,
-			},
-		});
-	}
-
-	async getDiscordUserByDiscordId(discordId: string) {
-		return prisma.discordUser.findUniqueOrThrow({
-			where: {
-				discordId,
 			},
 		});
 	}
@@ -77,14 +64,14 @@ export default class DiscordUserService {
 	async createIfDiscordUserNotExists(discordId: string) {
 		const discordUser = await prisma.discordUser.findUnique({
 			where: {
-				discordId,
+				id: discordId,
 			},
 		});
 
 		if (!discordUser) {
 			await prisma.discordUser.create({
 				data: {
-					discordId,
+					id: discordId,
 				},
 			});
 		}
@@ -95,7 +82,7 @@ export default class DiscordUserService {
 		amount: number,
 		{ description }: { description?: string } = {}
 	) {
-		const discordUser = await this.getDiscordUserByDiscordId(discordId);
+		const discordUser = await this.getById(discordId);
 
 		let newPoint = discordUser.point + amount;
 
