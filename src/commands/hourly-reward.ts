@@ -1,9 +1,10 @@
 import { SlashCommandBuilder } from "discord.js";
-import { HourlyRewardEmbed } from "../components/embeds/HourlyRewardEmbed";
+import { HourlyRewardEmbed } from "../components/embeds/HourlyReward/HourlyRewardEmbed";
 import { SlashCommand } from "../scripts/types/SlashCommand";
-import UsersService from "../services/users.service";
+import DiscordUserService from "../services/discordUser.service";
 import CooldownError from "../errors/hourly-reward.error";
-import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyRewardCooldownEmbed";
+import { HourlyRewardCooldownEmbed } from "../components/embeds/HourlyReward/HourlyRewardCooldownEmbed";
+import HourlyRewardService from "../services/hourlyReward.service";
 
 export const HourlyReward: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -11,10 +12,11 @@ export const HourlyReward: SlashCommand = {
 		.setDescription("รับแต้มประจำชั่วโมง"),
 
 	async onCommandExecuted(interaction) {
-		const us = new UsersService();
+		const us = new DiscordUserService();
+        const hs = new HourlyRewardService();
 
 		try {
-			const result = await us.recieveHourlyReward(interaction.user.id);
+			const result = await hs.recieveHourlyReward(interaction.user.id);
 
 			await interaction.reply({
 				embeds: [
@@ -27,18 +29,18 @@ export const HourlyReward: SlashCommand = {
 			});
 		} catch (error) {
 			if (error instanceof CooldownError) {
-				const user = await us.getUserByDiscordId(interaction.user.id);
+				const discordUser = await us.getDiscordUserByDiscordId(interaction.user.id);
 
-                if (!user.lastClaimedAt) {
-                    throw Error("User has no last claimed at");
+                if (!discordUser.lastClaimedAt) {
+                    throw Error("DiscordUser has no last claimed at");
                 }
 
 				await interaction.reply({
 					embeds: [
 						HourlyRewardCooldownEmbed({
 							discordId: interaction.user.id,
-							totalPoints: user.point,
-							lastClaimedAt: user.lastClaimedAt,
+							totalPoints: discordUser.point,
+							lastClaimedAt: discordUser.lastClaimedAt,
 						}),
 					],
 					ephemeral: true,

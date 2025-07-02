@@ -11,6 +11,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model DiscordUser {
+    id                        String             @id @default(uuid())
+    discordId                 String             @unique
+    point                     Int                @default(0)
+    lastClaimedAt             DateTime?
+    randomApproachClaimedList RandomApproach[]
+    pointTransactionsList     PointTransaction[]
+    createdAt                 DateTime           @default(now())
+    updatedAt                 DateTime           @updatedAt
+}
+
 model Users {
     id            String    @id @default(uuid())
     discordId     String    @unique
@@ -18,4 +29,41 @@ model Users {
     lastClaimedAt DateTime?
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @updatedAt
+}
+
+model RandomApproach {
+    id                   String       @id @default(uuid())
+    rewardPoints         Int
+    description          String?
+    claimedByDiscordUser DiscordUser? @relation(fields: [claimedByDiscordId], references: [id])
+    claimedByDiscordId   String?
+    claimedAt            DateTime?
+    createdAt            DateTime     @default(now())
+    updatedAt            DateTime     @updatedAt
+}
+
+model PointTransaction {
+    id            String      @id @default(uuid())
+    amount        Int
+    pointBefore   Int
+    pointAfter    Int
+    description   String?
+    discordUser   DiscordUser @relation(fields: [discordUserId], references: [id])
+    discordUserId String
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+}
+
+model Economy {
+    id               String   @id @default(uuid())
+    pointMean        Float
+    pointMax         Int
+    pointMin         Int
+    pointSd          Float
+    totalPoint       Int
+    totalUser        Int
+    totalTransaction Int
+    csp              String
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
 }

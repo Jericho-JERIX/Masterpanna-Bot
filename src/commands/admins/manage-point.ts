@@ -1,6 +1,6 @@
 import { GuildMember, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../../scripts/types/SlashCommand";
-import UsersService from "../../services/users.service";
+import DiscordUserService from "../../services/discordUser.service";
 import { ManagePointEmbed } from "../../components/embeds/ManagePointEmbed";
 import AdminService from "../../services/admin.service";
 
@@ -24,7 +24,7 @@ export const ManagePoint: SlashCommand = {
     ),
 
     async onCommandExecuted(interaction) {
-        const us = new UsersService();
+        const us = new DiscordUserService();
         const as = new AdminService();
 
         if (!as.isGuildMemberIsAdmin(interaction.member as GuildMember)) {
@@ -35,13 +35,15 @@ export const ManagePoint: SlashCommand = {
             return;
         }
 
-        const user = interaction.options.getUser("user", true);
+        const discordUser = interaction.options.getUser("user", true);
         const amount = interaction.options.getNumber("amount", true);
         const reason = interaction.options.getString("reason");
 
-        const result = await us.addPoint(user.id, amount);
+        const result = await us.addPoint(discordUser.id, amount, {
+            description: `Manage Point by ${interaction.member?.user.username} (${interaction.member?.user.id}) with reason: ${reason}`
+        });
 
-        const receiver = interaction.guild?.members.cache.get(user.id);
+        const receiver = interaction.guild?.members.cache.get(discordUser.id);
 
         if (!receiver) {
             await interaction.reply({
@@ -52,11 +54,11 @@ export const ManagePoint: SlashCommand = {
         }
 
         await interaction.reply({
-            ...(reason && { content: `<@${user.id}>` }),
+            ...(reason && { content: `<@${discordUser.id}>` }),
             embeds: [
                 ManagePointEmbed({
                     receiver: receiver,
-                    receiverUser: result,
+                    receiverDiscordUser: result,
                     donor: interaction.member as GuildMember,
                     amount,
                     reason: reason || "-",

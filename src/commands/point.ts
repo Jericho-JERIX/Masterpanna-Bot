@@ -1,7 +1,7 @@
 import { GuildMember, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../scripts/types/SlashCommand";
-import UsersService from "../services/users.service";
-import { UserProfileEmbed } from "../components/embeds/UserProfileEmbed";
+import DiscordUserService from "../services/discordUser.service";
+import { DiscordUserProfileEmbed } from "../components/embeds/DiscordUserProfileEmbed";
 
 export const Point: SlashCommand = {
 	slashCommandBuilder: new SlashCommandBuilder()
@@ -9,15 +9,17 @@ export const Point: SlashCommand = {
 		.setDescription("แสดงจำนวนแต้มของคุณ"),
     
 	async onCommandExecuted(interaction) {
-		const us = new UsersService();
+		const us = new DiscordUserService();
 
-		const user = await us.getUserByDiscordId(interaction.user.id);
+		const discordUser = await us.getProfileByDiscordId(interaction.user.id);
 
 		interaction.reply({
 			embeds: [
-				UserProfileEmbed({
-					user,
+				DiscordUserProfileEmbed({
+					discordUser,
 					discordMember: interaction.member as GuildMember,
+                    totalTransactions: discordUser.totalTransactions,
+                    pph: discordUser.pph.toFixed(3),
 				}),
 			],
 		});

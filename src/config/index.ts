@@ -3,9 +3,14 @@ import { readFileSync } from "fs";
 export interface Config {
 	adminUserIdList: string[];
 	adminRoleIdList: string[];
+	timeFormat: string;
+	timezone: string;
+	channelId: string;
 	hourlyReward: {
 		cooldown: number;
-	};  
+	};
+	playerRoleId: string;
+	endTimestamp: number | null;
 }
 
 const data = readFileSync("./config.json", "utf-8");
