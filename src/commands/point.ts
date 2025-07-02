@@ -11,7 +11,7 @@ export const Point: SlashCommand = {
 	async onCommandExecuted(interaction) {
 		const us = new DiscordUserService();
 
-		const discordUser = await us.getProfileByDiscordId(interaction.user.id);
+		const discordUser = await us.getProfile(interaction.user.id);
 
 		interaction.reply({
 			embeds: [

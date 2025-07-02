@@ -55,7 +55,7 @@ export const RandomApproach: SlashCommand = {
 				embeds: [
 					RandomApproachEmbed({
 						data: target.randomApproach,
-						discordId: target.discordUser.discordId,
+						discordId: target.discordUser.id,
 					}),
 				],
 				components: [
@@ -80,7 +80,6 @@ export const RandomApproach: SlashCommand = {
 						point: target.discordUser.point,
 						timeDiffMs,
                         fastestRa: fastestRa?.randomApproach,
-                        fastestDiscordUser: fastestRa?.discordUser,
 					}),
 				],
 			});

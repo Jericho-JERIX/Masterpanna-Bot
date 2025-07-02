@@ -15,7 +15,7 @@ export function DiscordUserProfileEmbed({
 }) {
 	return new EmbedBuilder()
 		.setTitle("🍆 ข้อมูลผู้ใช้งาน")
-		.setDescription(`<@${discordUser.discordId}>`)
+		.setDescription(`<@${discordUser.id}>`)
 		.addFields({
 			name: "Points",
 			value: `${coin(discordUser.point)}`,

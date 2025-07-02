@@ -29,7 +29,7 @@ export const HourlyReward: SlashCommand = {
 			});
 		} catch (error) {
 			if (error instanceof CooldownError) {
-				const discordUser = await us.getDiscordUserByDiscordId(interaction.user.id);
+				const discordUser = await us.getById(interaction.user.id);
 
                 if (!discordUser.lastClaimedAt) {
                     throw Error("DiscordUser has no last claimed at");

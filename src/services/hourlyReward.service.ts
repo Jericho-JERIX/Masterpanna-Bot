@@ -13,7 +13,7 @@ export default class HourlyRewardService {
 	async recieveHourlyReward(discordId: string) {
 		const discordUser = await prisma.discordUser.findUniqueOrThrow({
 			where: {
-				discordId,
+				id: discordId,
 			},
 		});
 

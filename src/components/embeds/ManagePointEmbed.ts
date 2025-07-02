@@ -20,7 +20,7 @@ export function ManagePointEmbed({
 	return new EmbedBuilder()
 		.setTitle(title)
 		.setDescription(
-			`<@${receiverDiscordUser.discordId}> ${amount > 0 ? "ได้รับ" : "ถูกลด"} ${amount} แต้มจาก <@${donor.user.id}>`
+			`<@${receiverDiscordUser.id}> ${amount > 0 ? "ได้รับ" : "ถูกลด"} ${amount} แต้มจาก <@${donor.user.id}>`
 		)
 		.addFields(
 			{

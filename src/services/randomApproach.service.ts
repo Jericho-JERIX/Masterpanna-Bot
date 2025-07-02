@@ -41,7 +41,7 @@ export default class RandomApproachService {
 		try {
 			const targetUser = await prisma.discordUser.findUniqueOrThrow({
 				where: {
-					discordId,
+					id: discordId,
 				},
 			});
 
