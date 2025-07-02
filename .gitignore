@@ -4,4 +4,4 @@ node_modules/
 build/
 /generated/prisma
 config.json
-dev.db
+*.db
